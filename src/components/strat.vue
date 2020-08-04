@@ -41,6 +41,8 @@ export default {
   position: relative;
   padding: 10px 20px;
   overflow: hidden;
+  color: #fff;
+  background: #56575c;
 
   &::after, &::before {
     position: absolute;
@@ -48,18 +50,18 @@ export default {
     top: 0;
     bottom: 0;
 
-    background: #000;
     mix-blend-mode: overlay;
-    transition: transform 1s;
+    transition: transform 1s 1.5s;
     width: 50%;
+    background: #000;
   }
 
   &::before {
-    left: 50%;
+    left: -50%;
   }
 
   &::after {
-    right: 50%;
+    right: -50%;
   }
 }
 
@@ -99,7 +101,7 @@ export default {
   background: #fff;
   z-index: -1;
 
-  transition: transform 1s 1s;
+  transition: transform 1s .5s;
 
   &-left {
     left: 0;
