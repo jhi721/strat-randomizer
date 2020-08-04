@@ -70,7 +70,8 @@ export default {
 <style lang="scss">
 * {
   font-family: 'Recursive', sans-serif;
-  color: white;
+  color: #fff;
+  box-sizing: border-box;
 }
 
 body {
@@ -86,8 +87,7 @@ body {
   width: 100vw;
   height: 100vh;
 
-  background: #56575C;
-
+  background: url("./assets/background.jpg") center no-repeat;
 }
 
 .strat-button {
@@ -142,11 +142,11 @@ body {
 
 .reset-button {
   position: absolute;
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   top: -50px;
   border-radius: 100%;
-  padding: 5px;
+  padding: 8px;
   cursor: pointer;
   background: #fff;
   transition: transform .5s ease-in-out;
