@@ -63,6 +63,14 @@ export default {
   &::after {
     right: -50%;
   }
+
+  @media only screen and (max-width: 320px) {
+    font-size: 24px;
+  }
+
+  @media only screen and (max-width: 400px) {
+    font-size: 32px;
+  }
 }
 
 .strat-selected {
