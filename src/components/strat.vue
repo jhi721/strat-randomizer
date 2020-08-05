@@ -37,7 +37,7 @@ export default {
 
 .pro-strat {
   font-size: 40px;
-  transition: all 1s;
+  transition: all 1s, background .1s 2.5s;
   position: relative;
   padding: 10px 20px;
   overflow: hidden;
@@ -77,19 +77,21 @@ export default {
   transform: scale(1.2);
 
   &::after {
-    transform: translateX(-101%);
+    transform: translateX(-100%);
   }
 
   &::before {
-    transform: translateX(101%);
+    transform: translateX(100%);
   }
+
+  background: #000;
 
   & .border {
     &-left {
       transform: translateY(-100%);
     }
 
-    &-top{
+    &-top {
       transform: translateX(100%);
     }
 

@@ -3,7 +3,7 @@
     <button v-if="status === 'Waiting'" class="strat-button" @click="randomizeStrat">
       Get Pro Strat
     </button>
-    <strat v-else :strat="currentStrat" :status="status" />
+    <strat v-else :strat="currentStrat" :status="status"/>
     <div
       :class="[`reset-button`, { show: status === 'Completed' }]" @click="resetState">
       <img src="./assets/refresh-icon.svg" alt="">
@@ -44,16 +44,18 @@ export default {
   methods: {
     randomizeStrat() {
       if (this.status === 'Waiting' || this.status === 'Completed') {
-        this.currentStrat = '';
-        this.status = 'Randomizing';
-        const interval = setInterval(() => {
-          this.currentStrat = this.strats[this.getRandomIndex()];
-        }, 150);
-
         setTimeout(() => {
-          this.status = 'Completed';
-          clearInterval(interval);
-        }, 5000);
+          this.currentStrat = '';
+          this.status = 'Randomizing';
+          const interval = setInterval(() => {
+            this.currentStrat = this.strats[this.getRandomIndex()];
+          }, 150);
+
+          setTimeout(() => {
+            this.status = 'Completed';
+            clearInterval(interval);
+          }, 5000);
+        }, 500);
       }
     },
     resetState() {
@@ -151,7 +153,7 @@ body {
   background: #fff;
   transition: transform .5s ease-in-out;
 
-  &:hover {
+  &:hover, &:active {
     transform: translateY(65px) rotate(420deg) !important;
   }
 
