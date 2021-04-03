@@ -1,72 +1,79 @@
 <template>
   <div id="app">
-    <button v-if="status === 'Waiting'" class="strat-button" @click="randomizeStrat">
+    <button
+      v-if="status === 'Waiting'"
+      class="strat-button"
+      @click="randomizeStrat"
+    >
       Get Pro Strat
     </button>
-    <strat v-else :strat="currentStrat" :status="status"/>
-    <div
-      :class="[`reset-button`, { show: status === 'Completed' }]" @click="resetState">
-      <img src="./assets/refresh-icon.svg" alt="">
-    </div>
+    <Strat v-else :strat="currentStrat" :status="status" />
+
+    <img
+      :class="[`reset-button`, { show: status === 'Completed' }]"
+      @click="resetState"
+      src="./assets/refresh-icon.svg"
+      alt=""
+    />
   </div>
 </template>
 
-<script>
-import Strat from '@/components/strat.vue';
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+import Strat from '@/components/Strat.vue';
 
-export default {
-  name: 'App',
-  components: { Strat },
-  data() {
-    return {
-      strats: [
-        'Pistols Only',
-        'SMG Only',
-        'DMR Only',
-        'Shotgun Only',
-        'Shields Only',
-        'LMG Only',
-        'Hipfire Only',
-        'Dropshot Only',
-        'Prone(Def Only)',
-        'Crouch Only',
-        'Burst Mode',
-        'One-Tap Mode',
-        'Sniper Rifle',
-        'One-Bullet Mag',
-        'Teamkill',
-        'Suicide',
-      ],
-      currentStrat: '',
-      status: 'Waiting',
-    };
+@Component({
+  components: {
+    Strat,
   },
-  methods: {
-    randomizeStrat() {
-      if (this.status === 'Waiting' || this.status === 'Completed') {
+})
+export default class App extends Vue {
+  private strats: Array<string> = [
+    'Pistols Only',
+    'SMG Only',
+    'DMR Only',
+    'Shotgun Only',
+    'Shields Only',
+    'LMG Only',
+    'Hipfire Only',
+    'Dropshot Only',
+    'Prone(Def Only)',
+    'Crouch Only',
+    'Burst Mode',
+    'One-Tap Mode',
+    'Sniper Rifle',
+    'One-Bullet Mag',
+    'Teamkill',
+    'Suicide',
+  ];
+  private currentStrat = '';
+  private status: 'Waiting' | 'Randomizing' | 'Completed' = 'Waiting';
+
+  public randomizeStrat(): void {
+    if (this.status === 'Waiting' || this.status === 'Completed') {
+      setTimeout(() => {
+        this.currentStrat = '';
+        this.status = 'Randomizing';
+        const interval = setInterval(() => {
+          this.currentStrat = this.strats[this.getRandomIndex()];
+        }, 150);
         setTimeout(() => {
-          this.currentStrat = '';
-          this.status = 'Randomizing';
-          const interval = setInterval(() => {
-            this.currentStrat = this.strats[this.getRandomIndex()];
-          }, 150);
+          this.status = 'Completed';
+          clearInterval(interval);
+        }, 5000);
+      }, 500);
+    }
+  }
 
-          setTimeout(() => {
-            this.status = 'Completed';
-            clearInterval(interval);
-          }, 5000);
-        }, 500);
-      }
-    },
-    resetState() {
-      this.currentStrat = '';
-      this.status = 'Waiting';
-    },
-    getRandomIndex() {
-      return Math.floor(Math.random() * (this.strats.length));
-    },
-  },
-};
+  public resetState(): void {
+    this.currentStrat = '';
+    this.status = 'Waiting';
+  }
+
+  public getRandomIndex(): number {
+    return Math.floor(Math.random() * this.strats.length);
+  }
+}
 </script>
 
 <style lang="scss">
@@ -85,11 +92,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-
   width: 100vw;
   height: 100vh;
-
-  background-image: url("./assets/test.jpg");
+  background-image: url('./assets/test.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -98,47 +103,38 @@ body {
 .strat-button {
   position: relative;
   border: 2px solid #000;
-  background: #56575C;
+  background: #56575c;
   font-size: 40px;
   overflow: hidden;
-
   color: inherit;
   cursor: pointer;
-
   padding: 10px 20px;
-  transition: transform .2s;
-
+  transition: transform 0.2s;
   animation: appear 1s forwards;
-
   &:active {
     transform: scale(0.9) translateY(10px);
   }
-
-  &::after, &::before {
+  &::after,
+  &::before {
     position: absolute;
     content: '';
     height: 50%;
     left: 0;
     right: 0;
-
     background: #000;
     mix-blend-mode: overlay;
-    transition: transform .5s;
+    transition: transform 0.5s;
   }
-
   &::before {
     top: -50%;
   }
-
   &::after {
     top: 100%;
   }
-
   &:hover {
     &::before {
       transform: translateY(100%);
     }
-
     &::after {
       transform: translateY(-100%);
     }
@@ -154,14 +150,10 @@ body {
   padding: 8px;
   cursor: pointer;
   background: #fff;
-  transition: transform .5s ease-in-out;
-
-  &:hover, &:active {
-    transform: translateY(65px) rotate(420deg) !important;
-  }
+  transition: transform 0.5s ease-in-out;
 
   &.show {
-    transform: translateY(65px) rotate(0);
+    transform: translateY(65px) rotate(420deg);
   }
 }
 
@@ -169,7 +161,6 @@ body {
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
